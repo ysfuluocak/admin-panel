@@ -1,0 +1,30 @@
+{
+  "users": [],
+  "roles": [],
+  "permissions": [
+    {
+      "permissionName": "dashboard.view",
+      "id": 1
+    },
+    {
+      "permissionName": "user.add",
+      "id": 2
+    },
+    {
+      "permissionName": "user.view",
+      "id": 3
+    },
+    {
+      "permissionName": "user.edit",
+      "id": 4
+    },
+    {
+      "permissionName": "user.delete",
+      "id": 5
+    },
+    {
+      "permissionName": "asdasdfdf",
+      "id": 7
+    }
+  ]
+}
