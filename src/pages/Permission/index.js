@@ -22,6 +22,7 @@ const Permission = () => {
     } else {
       updatePermission(editPermission.id, values).then((response) => {
         dispatch({type:UPDATE_ITEM,payload:response});
+        setEditPermission();
       });
     }
     setIsModalOpen(false);

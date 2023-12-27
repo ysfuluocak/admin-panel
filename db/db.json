@@ -1,6 +1,25 @@
 {
   "users": [],
-  "roles": [],
+  "roles": [
+    {
+      "roleName": "SuperAdmin",
+      "permissions": [
+        1,
+        2,
+        4,
+        3,
+        5
+      ],
+      "id": 1
+    },
+    {
+      "roleName": "Admin",
+      "permissions": [
+        3
+      ],
+      "id": 2
+    }
+  ],
   "permissions": [
     {
       "permissionName": "dashboard.view",
@@ -21,10 +40,6 @@
     {
       "permissionName": "user.delete",
       "id": 5
-    },
-    {
-      "permissionName": "asdasdfdfdfghgfhgf2223ds",
-      "id": 7
     }
   ]
 }

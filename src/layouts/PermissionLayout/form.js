@@ -16,7 +16,7 @@ const PermissionLayoutForm = ({ onFinish, editedPermission }) => {
   return (
     <Form
       form={form}
-      name="basic"
+      name="permission"
       labelCol={{
         span: 8,
       }}

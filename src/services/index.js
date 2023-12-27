@@ -1,5 +1,5 @@
 import axios from "axios";
-import { permissionURL, userURL } from "../constants/apiURL";
+import { permissionURL, roleURL, userURL } from "../constants/apiURL";
 
 const getPermissions = async () => {
   const response = await axios.get(permissionURL);
@@ -41,6 +41,26 @@ const updateUser = async (id, updatedUser) => {
   return response.data;
 };
 
+const addRole = async (newRole) => {
+  const response = await axios.post(roleURL, newRole);
+  return response.data;
+};
+
+const getRoles = async () => {
+  const response = await axios.get(roleURL);
+  return response.data;
+};
+
+const deleteRole = async (id) => {
+  const response = await axios.delete(`${roleURL}/${id}`);
+  return response.data;
+};
+
+const updateRole = async (id, updatedRole) => {
+  const response = await axios.put(`${roleURL}/${id}`, updatedRole);
+  return response.data;
+};
+
 export {
   addPermission,
   getPermissions,
@@ -50,4 +70,8 @@ export {
   deleteUser,
   updatePermission,
   updateUser,
+  addRole,
+  getRoles,
+  deleteRole,
+  updateRole,
 };
