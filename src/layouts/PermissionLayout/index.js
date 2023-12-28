@@ -11,8 +11,14 @@ const PermissionLayout = ({
   onClickDelete,
   onClickEdit,
   onClickAdd,
-  editedPermission
+  editedPermission,
+  setEditPermission,
 }) => {
+  const onCancel = () => {
+    setIsModalOpen(false);
+    setEditPermission();
+  };
+
   const columns = [
     {
       title: "Name",
@@ -64,6 +70,7 @@ const PermissionLayout = ({
           setIsModalOpen={setIsModalOpen}
           onFinish={onFinish}
           editedPermission={editedPermission}
+          onCancel={onCancel}
         />
       )}
     </div>

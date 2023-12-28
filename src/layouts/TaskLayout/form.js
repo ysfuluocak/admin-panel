@@ -1,20 +1,21 @@
-import React, { useEffect } from "react";
 import { Form, Input, Button } from "antd";
+import React, { useEffect } from "react";
 
-const PermissionLayoutForm = ({ onFinish, editedPermission, form }) => {
+const TaskLayoutForm = ({ onFinish, editTask }) => {
+  const [form] = Form.useForm();
   useEffect(() => {
-    if (editedPermission) {
-      form.setFieldsValue({ permissionName: editedPermission.permissionName });
+    if (editTask) {
+      form.setFieldsValue({ taskName: editTask.taskName });
     } else {
       form.resetFields();
     }
     // eslint-disable-next-line
-  }, [editedPermission]);
+  }, [form, editTask]);
 
   return (
     <Form
       form={form}
-      name="permission"
+      name="task"
       labelCol={{
         span: 8,
       }}
@@ -31,12 +32,12 @@ const PermissionLayoutForm = ({ onFinish, editedPermission, form }) => {
       autoComplete="off"
     >
       <Form.Item
-        label="Permission Name"
-        name="permissionName"
+        label="Name"
+        name="taskName"
         rules={[
           {
             required: true,
-            message: "Please input your permissionName!",
+            message: "Please input your Task Name!",
           },
         ]}
       >
@@ -57,4 +58,4 @@ const PermissionLayoutForm = ({ onFinish, editedPermission, form }) => {
   );
 };
 
-export default PermissionLayoutForm;
+export default TaskLayoutForm;

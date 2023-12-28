@@ -1,9 +1,9 @@
 import React from "react";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Table, Button, Space, Row, Col, Tag } from "antd";
-import RoleLayoutModal from "./modal";
+import FlowLayoutModal from "./modal";
 
-const RoleLayout = ({
+const FlowLayout = ({
   list,
   onClickAdd,
   onClickDelete,
@@ -11,32 +11,32 @@ const RoleLayout = ({
   isModalOpen,
   setIsModalOpen,
   onFinish,
-  editRole,
-  permissions,
+  editFlow,
+  task,
   onCancel,
 }) => {
   const columns = [
     {
       title: "Name",
-      dataIndex: "roleName",
-      key: "roleName",
+      dataIndex: "flowName",
+      key: "flowName",
       align: "left",
       render: (cell, row) => {
         return cell;
       },
     },
     {
-      title: "Permission",
-      dataIndex: "permissions",
-      key: "permissions",
+      title: "Tasks",
+      dataIndex: "tasks",
+      key: "tasks",
       align: "left",
       render: (cell, row) => {
         console.log("cell", cell);
 
         return (
           <div>
-            {cell.map((permission) => (
-              <Tag key={permission.id}>{permission.permissionName}</Tag>
+            {cell.map((task) => (
+              <Tag key={task.id}>{task.taskName}</Tag>
             ))}
           </div>
         );
@@ -80,12 +80,12 @@ const RoleLayout = ({
       </Row>
       <Table columns={columns} dataSource={list} />
       {isModalOpen && (
-        <RoleLayoutModal
+        <FlowLayoutModal
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           onFinish={onFinish}
-          editRole={editRole}
-          permissions={permissions}
+          editFlow={editFlow}
+          task={task}
           onCancel={onCancel}
         />
       )}
@@ -93,4 +93,4 @@ const RoleLayout = ({
   );
 };
 
-export default RoleLayout;
+export default FlowLayout;

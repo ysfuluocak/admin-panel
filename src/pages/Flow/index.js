@@ -1,38 +1,33 @@
-import React, { useEffect, useReducer, useState } from "react";
-import PermissionLayout from "../../layouts/PermissionLayout";
+import React, { useState, useEffect, useReducer } from "react";
 import reducer, {
   ADD_ITEM,
   DELETE_ITEM,
   UPDATE_ITEM,
 } from "../../reducers/listReducer";
-import {
-  addPermission,
-  deletePermission,
-  getPermissions,
-  updatePermission,
-} from "../../services";
+import { addFlow, deleteFlow, getFlows, updateFlow } from "../../services";
+import FlowLayout from "../../layouts/FlowLayout";
 
-const Permission = () => {
+const Flow = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [list, dispatch] = useReducer(reducer, []);
-  const [editPermission, setEditPermission] = useState();
+  const [editFlow, setEditFlow] = useState();
+  const [tasks, setTasks] = useState();
 
   const onFinish = (values) => {
-    if (!editPermission) {
-      addPermission(values).then((response) => {
+    if (!editFlow) {
+      addFlow(values).then((response) => {
         dispatch({
           type: ADD_ITEM,
           payload: { ...response, key: response.id },
         });
-        debugger;
       });
     } else {
-      updatePermission(editPermission.id, values).then((response) => {
+      updateFlow(editFlow.id, values).then((response) => {
         dispatch({
           type: UPDATE_ITEM,
           payload: { ...response, key: response.id },
         });
-        setEditPermission();
+        setEditFlow();
       });
     }
     setIsModalOpen(false);
@@ -43,24 +38,24 @@ const Permission = () => {
   };
 
   const onClickDelete = (id) => {
-    deletePermission(id).then((response) =>
+    deleteFlow(id).then((response) =>
       dispatch({ type: DELETE_ITEM, payload: id })
     );
   };
 
-  const onClickEdit = (updatedPermission) => {
+  const onClickEdit = (updatedFlow) => {
     setIsModalOpen(true);
-    setEditPermission(updatedPermission);
+    setEditFlow(updatedFlow);
   };
 
   useEffect(() => {
-    getPermissions().then((response) => {
+    getFlows().then((response) => {
       dispatch(response.map((item) => ({ ...item, key: item.id })));
     });
   }, []);
 
   return (
-    <PermissionLayout
+    <FlowLayout
       list={list}
       onFinish={onFinish}
       isModalOpen={isModalOpen}
@@ -68,10 +63,10 @@ const Permission = () => {
       onClickDelete={onClickDelete}
       onClickEdit={onClickEdit}
       onClickAdd={onClickAdd}
-      editedPermission={editPermission}
-      setEditPermission={setEditPermission}
+      editFlow={editFlow}
+      setEditFlow={setEditFlow}
     />
   );
 };
 
-export default Permission;
+export default Flow;

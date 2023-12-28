@@ -1,45 +1,98 @@
 import React from "react";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Table, Button, Space, Row, Col, Tag } from "antd";
-import RoleLayoutModal from "./modal";
+import UserLayoutModal from "../UserLayout/modal";
 
-const RoleLayout = ({
-  list,
+const UserLayout = ({
+  onCancel,
+  isModalOpen,
+  setIsModalOpen,
   onClickAdd,
   onClickDelete,
   onClickEdit,
-  isModalOpen,
-  setIsModalOpen,
+  editUser,
   onFinish,
-  editRole,
-  permissions,
-  onCancel,
+  list,
+  roles,
 }) => {
   const columns = [
     {
       title: "Name",
-      dataIndex: "roleName",
-      key: "roleName",
+      dataIndex: "firstName",
+      key: "firstName",
       align: "left",
       render: (cell, row) => {
         return cell;
       },
     },
     {
-      title: "Permission",
-      dataIndex: "permissions",
-      key: "permissions",
+      title: "Last Name",
+      dataIndex: "lastName",
+      key: "userName",
+      align: "left",
+      render: (cell, row) => {
+        return cell;
+      },
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+      align: "left",
+      render: (cell, row) => {
+        return cell;
+      },
+    },
+    {
+      title: "Age",
+      dataIndex: "age",
+      key: "age",
+      align: "left",
+      render: (cell, row) => {
+        return cell;
+      },
+    },
+    {
+      title: "Roles",
+      dataIndex: "roles",
+      key: "roles",
       align: "left",
       render: (cell, row) => {
         console.log("cell", cell);
 
         return (
           <div>
-            {cell.map((permission) => (
-              <Tag key={permission.id}>{permission.permissionName}</Tag>
+            {cell.map((role) => (
+              <Tag key={role.id}>{role.roleName}</Tag>
             ))}
           </div>
         );
+      },
+    },
+    {
+      title: "Flows",
+      dataIndex: "flows",
+      key: "flows",
+      align: "left",
+      render: (cell, row) => {
+        console.log("cell", cell);
+
+        return (
+          <div>
+            {cell.map((flow) => (
+              <Tag key={flow.id}>{flow.roleName}</Tag>
+            ))}
+          </div>
+        );
+      },
+    },
+    {
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
+      align: "left",
+      render: (cell, row) => {
+        return cell;
       },
     },
     {
@@ -80,17 +133,17 @@ const RoleLayout = ({
       </Row>
       <Table columns={columns} dataSource={list} />
       {isModalOpen && (
-        <RoleLayoutModal
+        <UserLayoutModal
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           onFinish={onFinish}
-          editRole={editRole}
-          permissions={permissions}
+          editUser={editUser}
           onCancel={onCancel}
+          roles={roles}
         />
       )}
     </div>
   );
 };
 
-export default RoleLayout;
+export default UserLayout;

@@ -4,9 +4,9 @@ import Dashboard from "../Dashboard";
 import User from "../User";
 import Role from "../Role";
 import Permission from "../Permission";
-import Tasks from "../Tasks";
-import Flows from "../Flows";
-import Settings from "../Settings";
+import Task from "../Task";
+import Flow from "../Flow";
+import Setting from "../Setting";
 import {
   CarryOutOutlined,
   PieChartOutlined,
@@ -42,17 +42,17 @@ const MainPage = ({ onChangeTheme }) => {
     {
       key: "m5",
       icon: <SlidersOutlined />,
-      label: <Link to="/tasks">Tasks</Link>,
+      label: <Link to="/task">Task</Link>,
     },
     {
       key: "m6",
       icon: <CarryOutOutlined />,
-      label: <Link to="/flows">Flows</Link>,
+      label: <Link to="/flow">Flow</Link>,
     },
     {
       key: "m7",
       icon: <SettingOutlined />,
-      label: <Link to="/settings">Settings</Link>,
+      label: <Link to="/setting">Setting</Link>,
     },
   ];
 
@@ -65,9 +65,9 @@ const MainPage = ({ onChangeTheme }) => {
           <Route path="/user" element={<User />} />
           <Route path="/role" element={<Role />} />
           <Route path="/permission" element={<Permission />} />
-          <Route path="/tasks" element={<Tasks />} />
-          <Route path="/flows" element={<Flows />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/task" element={<Task />} />
+          <Route path="/flow" element={<Flow />} />
+          <Route path="/setting" element={<Setting />} />
         </Routes>
       </MainLayout>
     </BrowserRouter>

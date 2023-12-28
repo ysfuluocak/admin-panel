@@ -1,11 +1,11 @@
 import React, { useEffect, useReducer, useState } from "react";
-import RoleLayout from "../../layouts/RoleLayout";
+import TaskLayout from "../../layouts/TaskLayout";
 import {
-  addRole,
+  addTask,
   deleteRole,
-  getPermissions,
-  getRoles,
-  updateRole,
+  getFlows,
+  getTasks,
+  updateTask,
 } from "../../services";
 import reducer, {
   ADD_ITEM,
@@ -13,44 +13,42 @@ import reducer, {
   UPDATE_ITEM,
 } from "../../reducers/listReducer";
 
-const Role = () => {
-  const [editRole, setEditRole] = useState();
+const Task = () => {
+  const [editTask, setEditTask] = useState();
   const [list, dispatch] = useReducer(reducer, []);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [permissions, setPermissions] = useState();
+  const [flows, setFlows] = useState();
 
   const onFinish = (values) => {
-    if (!editRole) {
-      addRole(values).then((response) => {
+    if (!editTask) {
+      addTask(values).then((response) => {
         dispatch({
           type: ADD_ITEM,
           payload: {
             ...response,
-            permissions: response.permissions.map((itemPer) =>
-              permissions.find((per) => per.id === itemPer)
+            flows: response.flows.map((itemFlowId) =>
+              flows.find((flow) => flow.id === itemFlowId)
             ),
             key: response.id,
           },
         });
-        console.log(list);
-        debugger;
       });
     } else {
-      updateRole(editRole.id, {
+      updateTask(editTask.id, {
         ...values,
-        permissions: values.permissions.map((per) => per.value),
+        flows: values.flows.map((flow) => flow.value),
       }).then((response) => {
         dispatch({
           type: UPDATE_ITEM,
           payload: {
             ...response,
-            permissions: response.permissions.map((itemPer) =>
-              permissions.find((per) => per.id === itemPer)
+            flows: response.flows.map((itemFlowId) =>
+              flows.find((flow) => flow.id === itemFlowId)
             ),
             key: response.id,
           },
         });
-        setEditRole();
+        setEditTask();
       });
     }
     setIsModalOpen(false);
@@ -66,50 +64,49 @@ const Role = () => {
     });
   };
 
-  const onClickEdit = (editedRole) => {
+  const onClickEdit = (editTask) => {
     setIsModalOpen(true);
-    console.log(editedRole);
-    debugger;
-    setEditRole(editedRole);
+    setEditTask(editTask);
   };
 
   const onCancel = () => {
     setIsModalOpen(false);
-    setEditRole();
+    setEditTask();
   };
 
   useEffect(() => {
-    getRoles().then((response) => {
-      getPermissions().then((responsePer) => {
+    getTasks().then((response) => {
+      getFlows().then((responseFlow) => {
         dispatch(
           response
             .map((item) => ({
               ...item,
-              permissions: item.permissions.map((itemPer) =>
-                responsePer.find((per) => per.id === itemPer)
+              flows: item.flows.map((itemFlowId) =>
+                flows.find((flow) => flow.id === itemFlowId)
               ),
             }))
             .map((item) => ({ ...item, key: item.id }))
         );
-        setPermissions(responsePer);
+        setFlows(responseFlow);
       });
     });
+    // eslint-disable-next-line
   }, []);
 
   return (
-    <RoleLayout
+    <TaskLayout
       onFinish={onFinish}
       onClickAdd={onClickAdd}
       onClickDelete={onClickDelete}
       onClickEdit={onClickEdit}
       list={list}
-      editRole={editRole}
+      editTask={editTask}
       isModalOpen={isModalOpen}
       setIsModalOpen={setIsModalOpen}
-      permissions={permissions}
+      flows={flows}
       onCancel={onCancel}
     />
   );
 };
 
-export default Role;
+export default Task;

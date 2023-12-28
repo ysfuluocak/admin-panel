@@ -1,27 +1,26 @@
-import { Form, Input, Select, Button } from "antd";
 import React, { useEffect } from "react";
+import { Form, Input, Button,Select } from "antd";
 
-const RoleLayoutForm = ({ onFinish, permissions, editRole }) => {
-  const [form] = Form.useForm();
+const FlowLayoutForm = ({ onFinish, editFlow,tasks, form }) => {
   useEffect(() => {
-    if (editRole) {
+    if (editFlow) {
       form.setFieldsValue({
-        roleName: editRole.roleName,
-        permissions: editRole.permissions.map((p) => ({
-          label: p.permissionName,
-          value: p.id,
+        flowName: editFlow.flowName,
+        tasks: editFlow.tasks.map((t) => ({
+          label: t.taskName,
+          value: t.id,
         })),
       });
     } else {
       form.resetFields();
     }
     // eslint-disable-next-line
-  }, [form, editRole]);
+  }, [form, editFlow]);
 
   return (
     <Form
       form={form}
-      name="role"
+      name="flow"
       labelCol={{
         span: 8,
       }}
@@ -38,32 +37,32 @@ const RoleLayoutForm = ({ onFinish, permissions, editRole }) => {
       autoComplete="off"
     >
       <Form.Item
-        label="Role Name"
-        name="roleName"
+        label="Name"
+        name="flowName"
         rules={[
           {
             required: true,
-            message: "Please input your permissionName!",
+            message: "Please input your Flow Name!",
           },
         ]}
       >
         <Input />
       </Form.Item>
       <Form.Item
-        label="Permissions"
-        name="permissions"
+        label="Tasks"
+        name="tasks"
         rules={[
           {
             required: true,
-            message: "Please select at least one permission!",
+            message: "Please select at least one tasks!",
           },
         ]}
       >
         <Select
           mode="multiple"
-          options={permissions.map((permission) => ({
-            value: permission.id,
-            label: permission.permissionName,
+          options={tasks.map((task) => ({
+            value: task.id,
+            label: task.taskName,
           }))}
         />
       </Form.Item>
@@ -81,4 +80,4 @@ const RoleLayoutForm = ({ onFinish, permissions, editRole }) => {
   );
 };
 
-export default RoleLayoutForm;
+export default FlowLayoutForm;

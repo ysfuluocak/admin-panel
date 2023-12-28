@@ -1,13 +1,12 @@
 import React from "react";
 import { Modal } from "antd";
-import RoleLayoutForm from "./form";
+import TaskLayoutForm from "./form";
 
-const RoleLayoutModal = ({
+const TaskLayoutModal = ({
   onFinish,
   isModalOpen,
-  editRole,
+  editTask,
   setIsModalOpen,
-  permissions,
   onCancel,
 }) => {
   const handleOk = () => {
@@ -28,13 +27,9 @@ const RoleLayoutModal = ({
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <RoleLayoutForm
-        onFinish={onFinish}
-        editRole={editRole}
-        permissions={permissions}
-      />
+      <TaskLayoutForm onFinish={onFinish} editTask={editTask} />
     </Modal>
   );
 };
 
-export default RoleLayoutModal;
+export default TaskLayoutModal;

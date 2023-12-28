@@ -1,13 +1,21 @@
 import React from "react";
-import { Modal } from "antd";
+import { Modal, Form } from "antd";
 import PermissionLayoutForm from "./form";
 
-const PermissionLayoutModal = ({ isModalOpen, setIsModalOpen, onFinish,editedPermission }) => {
+const PermissionLayoutModal = ({
+  isModalOpen,
+  setIsModalOpen,
+  onFinish,
+  editedPermission,
+  onCancel,
+}) => {
+  const [form] = Form.useForm();
   const handleOk = () => {
     setIsModalOpen(false);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+    if (onCancel) onCancel();
   };
   return (
     <Modal
@@ -18,7 +26,11 @@ const PermissionLayoutModal = ({ isModalOpen, setIsModalOpen, onFinish,editedPer
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <PermissionLayoutForm onFinish={onFinish} editedPermission={editedPermission} />
+      <PermissionLayoutForm
+        onFinish={onFinish}
+        editedPermission={editedPermission}
+        form={form}
+      />
     </Modal>
   );
 };

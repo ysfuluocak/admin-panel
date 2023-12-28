@@ -5,20 +5,13 @@ export const UPDATE_ITEM = "UPDATE_ITEM";
 const reducer = (list, action) => {
   switch (action.type) {
     case ADD_ITEM:
-      return [...list, action.payload].map((item) => ({
-        ...item,
-        key: item.id,
-      }));
+      return [...list, action.payload];
     case DELETE_ITEM:
-      return list
-        .filter((item) => item.id !== action.payload)
-        .map((item) => ({ ...item, key: item.id }));
+      return list.filter((item) => item.id !== action.payload);
     case UPDATE_ITEM:
-      return list
-        .map((item) =>
-          item.id === action.payload.id ? { ...item, ...action.payload } : item
-        )
-        .map((item) => ({ ...item, key: item.id }));
+      return list.map((item) =>
+        item.id === action.payload.id ? { ...item, ...action.payload } : item
+      );
     default:
       return action;
   }

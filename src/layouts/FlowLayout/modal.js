@@ -1,40 +1,34 @@
 import React from "react";
-import { Modal } from "antd";
-import RoleLayoutForm from "./form";
+import FlowLayoutForm from "./form";
+import { Modal, Form } from "antd";
 
-const RoleLayoutModal = ({
-  onFinish,
+const FlowLayoutModal = ({
   isModalOpen,
-  editRole,
   setIsModalOpen,
-  permissions,
+  onFinish,
+  editFlow,
+  tasks,
   onCancel,
 }) => {
+  const [form] = Form.useForm();
   const handleOk = () => {
     setIsModalOpen(false);
   };
-
   const handleCancel = () => {
     setIsModalOpen(false);
     if (onCancel) onCancel();
   };
-
   return (
     <Modal
-      title="Add Permission"
+      title="Add Flow"
       cancelButtonProps={{ style: { display: "none" } }}
       okButtonProps={{ style: { display: "none" } }}
       open={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <RoleLayoutForm
-        onFinish={onFinish}
-        editRole={editRole}
-        permissions={permissions}
-      />
+      <FlowLayoutForm onFinish={onFinish} editFlow={editFlow} form={form} tasks={tasks} />
     </Modal>
   );
 };
-
-export default RoleLayoutModal;
+export default FlowLayoutModal;

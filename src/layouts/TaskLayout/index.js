@@ -1,46 +1,30 @@
 import React from "react";
+import { Table, Space, Button, Col, Row } from "antd";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Table, Button, Space, Row, Col, Tag } from "antd";
-import RoleLayoutModal from "./modal";
+import TaskLayoutModal from "./modal";
 
-const RoleLayout = ({
+const TaskLayout = ({
   list,
-  onClickAdd,
-  onClickDelete,
-  onClickEdit,
+  onFinish,
   isModalOpen,
   setIsModalOpen,
-  onFinish,
-  editRole,
-  permissions,
-  onCancel,
+  onClickDelete,
+  onClickEdit,
+  onClickAdd,
+  editTask,
+  setEditTask,
 }) => {
+  const onCancel = () => {
+    setIsModalOpen(false);
+    setEditTask();
+  };
+
   const columns = [
     {
       title: "Name",
-      dataIndex: "roleName",
-      key: "roleName",
+      dataIndex: "taskName",
+      key: "key",
       align: "left",
-      render: (cell, row) => {
-        return cell;
-      },
-    },
-    {
-      title: "Permission",
-      dataIndex: "permissions",
-      key: "permissions",
-      align: "left",
-      render: (cell, row) => {
-        console.log("cell", cell);
-
-        return (
-          <div>
-            {cell.map((permission) => (
-              <Tag key={permission.id}>{permission.permissionName}</Tag>
-            ))}
-          </div>
-        );
-      },
     },
     {
       title: "Action",
@@ -51,14 +35,15 @@ const RoleLayout = ({
           <Button
             type="primary"
             shape="circle"
-            onClick={() => onClickEdit(record)}
             icon={<EditOutlined />}
+            onClick={() => onClickEdit(record)}
           />
+
           <Button
             type="primary"
             shape="circle"
-            onClick={() => onClickDelete(record.key)}
             icon={<DeleteOutlined />}
+            onClick={() => onClickDelete(record.key)}
             danger
           />
         </Space>
@@ -80,12 +65,11 @@ const RoleLayout = ({
       </Row>
       <Table columns={columns} dataSource={list} />
       {isModalOpen && (
-        <RoleLayoutModal
+        <TaskLayoutModal
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           onFinish={onFinish}
-          editRole={editRole}
-          permissions={permissions}
+          editTask={editTask}
           onCancel={onCancel}
         />
       )}
@@ -93,4 +77,4 @@ const RoleLayout = ({
   );
 };
 
-export default RoleLayout;
+export default TaskLayout;

@@ -1,14 +1,14 @@
-import React from "react";
 import { Modal } from "antd";
-import RoleLayoutForm from "./form";
+import React from "react";
+import UserLayoutForm from "./form";
 
-const RoleLayoutModal = ({
+const UserLayoutModal = ({
   onFinish,
   isModalOpen,
-  editRole,
+  editUser,
   setIsModalOpen,
-  permissions,
   onCancel,
+  roles
 }) => {
   const handleOk = () => {
     setIsModalOpen(false);
@@ -18,7 +18,6 @@ const RoleLayoutModal = ({
     setIsModalOpen(false);
     if (onCancel) onCancel();
   };
-
   return (
     <Modal
       title="Add Permission"
@@ -28,13 +27,9 @@ const RoleLayoutModal = ({
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <RoleLayoutForm
-        onFinish={onFinish}
-        editRole={editRole}
-        permissions={permissions}
-      />
+      <UserLayoutForm onFinish={onFinish} editUser={editUser} roles={roles} />
     </Modal>
   );
 };
 
-export default RoleLayoutModal;
+export default UserLayoutModal;
