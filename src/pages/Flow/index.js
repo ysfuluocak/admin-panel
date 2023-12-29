@@ -13,7 +13,7 @@ import {
 } from "../../services";
 import FlowLayout from "../../layouts/FlowLayout";
 
-const Flow = () => {
+const Flow = ({colorPrimary}) => {
   const [editFlow, setEditFlow] = useState();
   const [list, dispatch] = useReducer(reducer, []);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -101,6 +101,7 @@ const Flow = () => {
       editFlow={editFlow}
       tasks={tasks}
       onCancel={onCancel}
+      colorPrimary={colorPrimary}
     />
   );
 };

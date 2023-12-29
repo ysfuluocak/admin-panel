@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Table, Button, Space, Row, Col, Tag } from "antd";
 import UserLayoutModal from "../UserLayout/modal";
+import { UserContext } from "../../context/userContext";
 
 const UserLayout = ({
   onCancel,
@@ -15,7 +16,9 @@ const UserLayout = ({
   list,
   roles,
   flows,
+  colorPrimary
 }) => {
+  const { currentUserPermissions } = useContext(UserContext);
   const columns = [
     {
       title: "Name",
@@ -64,7 +67,7 @@ const UserLayout = ({
         return (
           <div>
             {cell.map((role) => (
-              <Tag key={role.id}>{role.roleName}</Tag>
+              <Tag color={colorPrimary} key={role.id}>{role.roleName}</Tag>
             ))}
           </div>
         );
@@ -81,7 +84,7 @@ const UserLayout = ({
         return (
           <div>
             {cell.map((flow) => (
-              <Tag key={flow.id}>{flow.flowName}</Tag>
+              <Tag color={colorPrimary} key={flow.id}>{flow.flowName}</Tag>
             ))}
           </div>
         );
@@ -107,12 +110,20 @@ const UserLayout = ({
             shape="circle"
             onClick={() => onClickEdit(record)}
             icon={<EditOutlined />}
+            style={
+              currentUserPermissions?.some(
+                (permissionName) => permissionName === "user.edit"
+              )
+                ? { display: "inherit" }
+                : { display: "none" }
+            }
           />
           <Button
             type="primary"
             shape="circle"
             onClick={() => onClickDelete(record.key)}
             icon={<DeleteOutlined />}
+            style={currentUserPermissions?.some(permissionName=>permissionName==="user.delete") ? {display:"inherit"} : {display:"none"} }
             danger
           />
         </Space>
@@ -122,16 +133,20 @@ const UserLayout = ({
 
   return (
     <div>
-      <Row justify="end">
-        <Col>
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<PlusOutlined />}
-            onClick={onClickAdd}
-          />
-        </Col>
-      </Row>
+      {currentUserPermissions?.some(
+        (permissionName) => permissionName === "user.add"
+      ) && (
+        <Row justify="end">
+          <Col>
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<PlusOutlined />}
+              onClick={onClickAdd}
+            />
+          </Col>
+        </Row>
+      )}
       <Table columns={columns} dataSource={list} />
       {isModalOpen && (
         <UserLayoutModal

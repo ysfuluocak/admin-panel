@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Breadcrumb, Col, Layout, Menu, Row, Switch, theme } from "antd";
+import { UserContext } from "../../context/userContext";
+
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const defaultTheme = "light";
 
 const MainLayout = ({ menu, children, onChangeTheme }) => {
+  const { currentUser } = useContext(UserContext);
   const [collapsed, setCollapsed] = useState(false);
   const [themeState, setThemeState] = useState(defaultTheme);
   const {
@@ -21,6 +24,7 @@ const MainLayout = ({ menu, children, onChangeTheme }) => {
     if (defaultTheme === "dark") {
       onChangeTheme(true);
     }
+
     // eslint-disable-next-line
   }, []);
 
@@ -43,7 +47,7 @@ const MainLayout = ({ menu, children, onChangeTheme }) => {
       <Layout>
         <Header style={{ background: colorBgContainer }}>
           <Row>
-            <Col flex="auto" />
+            <Col flex="auto">{currentUser?.firstName}</Col>
             <Col>
               <Switch
                 checkedChildren="dark"
@@ -65,7 +69,7 @@ const MainLayout = ({ menu, children, onChangeTheme }) => {
             }}
           >
             <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
+            <Breadcrumb.Item>{currentUser?.firstName}</Breadcrumb.Item>
           </Breadcrumb>
           <div
             style={{

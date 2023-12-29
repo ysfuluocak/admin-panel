@@ -8,13 +8,14 @@ import {
   getUsers,
   updateUser,
 } from "../../services";
+
 import reducer, {
   ADD_ITEM,
   UPDATE_ITEM,
   DELETE_ITEM,
 } from "../../reducers/listReducer";
 
-const User = () => {
+const User = ({ colorPrimary }) => {
   const [editUser, setEditUser] = useState();
   const [list, dispatch] = useReducer(reducer, []);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -116,6 +117,7 @@ const User = () => {
       onCancel={onCancel}
       roles={roles}
       flows={flows}
+      colorPrimary={colorPrimary}
     />
   );
 };

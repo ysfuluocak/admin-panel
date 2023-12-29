@@ -7,6 +7,7 @@ import Permission from "../Permission";
 import Task from "../Task";
 import Flow from "../Flow";
 import Setting from "../Setting";
+
 import {
   CarryOutOutlined,
   PieChartOutlined,
@@ -17,7 +18,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 
-const MainPage = ({ onChangeTheme, setColorPrimary,colorPrimary }) => {
+const MainPage = ({ onChangeTheme, setColorPrimary, colorPrimary }) => {
   const menu = [
     {
       key: "m1",
@@ -62,14 +63,19 @@ const MainPage = ({ onChangeTheme, setColorPrimary,colorPrimary }) => {
         <Routes>
           <Route path="/" element={<Dashboard />} exact />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/role" element={<Role />} />
+          <Route path="/user" element={<User colorPrimary={colorPrimary} />} />
+          <Route path="/role" element={<Role colorPrimary={colorPrimary} />} />
           <Route path="/permission" element={<Permission />} />
           <Route path="/task" element={<Task />} />
-          <Route path="/flow" element={<Flow />} />
+          <Route path="/flow" element={<Flow colorPrimary={colorPrimary} />} />
           <Route
             path="/setting"
-            element={<Setting setColorPrimary={setColorPrimary} colorPrimary={colorPrimary}/>}
+            element={
+              <Setting
+                setColorPrimary={setColorPrimary}
+                colorPrimary={colorPrimary}
+              />
+            }
           />
         </Routes>
       </MainLayout>

@@ -1,7 +1,8 @@
-import React from "react";
+import React,{useContext} from "react";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Table, Button, Space, Row, Col, Tag } from "antd";
 import RoleLayoutModal from "./modal";
+import { UserContext } from "../../context/userContext";
 
 const RoleLayout = ({
   list,
@@ -14,7 +15,9 @@ const RoleLayout = ({
   editRole,
   permissions,
   onCancel,
+  colorPrimary
 }) => {
+  const { currentUserPermissions } = useContext(UserContext);
   const columns = [
     {
       title: "Name",
@@ -36,7 +39,7 @@ const RoleLayout = ({
         return (
           <div>
             {cell.map((permission) => (
-              <Tag key={permission.id}>{permission.permissionName}</Tag>
+              <Tag color={colorPrimary} key={permission.id}>{permission.permissionName}</Tag>
             ))}
           </div>
         );
@@ -53,12 +56,14 @@ const RoleLayout = ({
             shape="circle"
             onClick={() => onClickEdit(record)}
             icon={<EditOutlined />}
+            style={currentUserPermissions?.some(permissionName=>permissionName==="role.edit") ? {display:"inherit"} : {display:"none"} }
           />
           <Button
             type="primary"
             shape="circle"
             onClick={() => onClickDelete(record.key)}
             icon={<DeleteOutlined />}
+            style={currentUserPermissions?.some(permissionName=>permissionName==="role.delete") ? {display:"inherit"} : {display:"none"} }
             danger
           />
         </Space>
@@ -68,16 +73,18 @@ const RoleLayout = ({
 
   return (
     <div>
-      <Row justify="end">
-        <Col>
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<PlusOutlined />}
-            onClick={onClickAdd}
-          />
-        </Col>
-      </Row>
+      {currentUserPermissions?.some((permissionName) => permissionName === "role.add") && (
+        <Row justify="end">
+          <Col>
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<PlusOutlined />}
+              onClick={onClickAdd}
+            />
+          </Col>
+        </Row>
+      )}
       <Table columns={columns} dataSource={list} />
       {isModalOpen && (
         <RoleLayoutModal

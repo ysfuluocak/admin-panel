@@ -118,7 +118,30 @@ const updateCurrentUser = async (user) => {
   return response.data;
 };
 
+const userPer = async (user) => {
+  console.log(user);
+  const permissions = await getPermissions();
+
+  const roles = await getRoles();
+
+  const userRoles = user?.roles
+    ?.map((roleId) => roles?.filter((role) => role.id === roleId))
+    .flat(1);
+
+  const userPermissions = userRoles
+    ?.map((role) => {
+      console.log(role.permissions);
+      return role.permissions?.map((permissionId) => {
+        return permissions?.filter((per) => per.id === permissionId);
+      });
+    })
+    .flat(Infinity);
+
+  return [...new Set(userPermissions)].map(per=>per.permissionName);
+};
+
 export {
+  userPer,
   addPermission,
   getPermissions,
   addUser,
@@ -140,5 +163,5 @@ export {
   updateFlow,
   updateTask,
   getCurrentUser,
-  updateCurrentUser
+  updateCurrentUser,
 };

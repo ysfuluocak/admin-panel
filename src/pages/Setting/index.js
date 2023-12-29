@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SettingLayout from "../../layouts/SettingLayout";
-import { getCurrentUser, getUsers, updateCurrentUser } from "../../services";
+import {  getUsers, updateCurrentUser } from "../../services";
+import { UserContext } from "../../context/userContext";
 
-const Setting = ({ setColorPrimary,colorPrimary }) => {
+const Setting = ({ setColorPrimary, colorPrimary }) => {
   const [users, setUsers] = useState([]);
-  const [currentUser, setCurrentUser] = useState();
+
+  const { currentUser, setCurrentUser } = useContext(UserContext);
 
   useEffect(() => {
     getUsers().then((response) => {
       setUsers(response);
     });
-
-    getCurrentUser().then((response) => {
-      setCurrentUser(response);
-    });
-  }, []);
+    // eslint-disable-next-line
+  }, [currentUser]);
 
   const onFinish = (values) => {
     const user = users.find((user) => user.id === values.currentUser);
-    updateCurrentUser({...user,color:values.color.toHexString()}).then((response) => {
-      setCurrentUser(response);
-      return response
-    }).then(response=>{
-      setColorPrimary(response.color);
-    });
+    updateCurrentUser({ ...user, color: values.color.toHexString() })
+      .then((response) => {
+        setCurrentUser(response);
+        return response;
+      })
+      .then((response) => {
+        setColorPrimary(response.color);
+      });
   };
   return (
     <SettingLayout

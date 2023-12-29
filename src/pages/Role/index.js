@@ -13,7 +13,7 @@ import reducer, {
   UPDATE_ITEM,
 } from "../../reducers/listReducer";
 
-const Role = () => {
+const Role = ({colorPrimary}) => {
   const [editRole, setEditRole] = useState();
   const [list, dispatch] = useReducer(reducer, []);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -101,6 +101,7 @@ const Role = () => {
       editRole={editRole}
       permissions={permissions}
       onCancel={onCancel}
+      colorPrimary={colorPrimary}
     />
   );
 };

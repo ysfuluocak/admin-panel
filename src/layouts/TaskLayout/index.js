@@ -1,7 +1,8 @@
-import React from "react";
+import React,{useContext} from "react";
 import { Table, Space, Button, Col, Row } from "antd";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import TaskLayoutModal from "./modal";
+import { UserContext } from "../../context/userContext";
 
 const TaskLayout = ({
   list,
@@ -13,7 +14,9 @@ const TaskLayout = ({
   onClickAdd,
   editTask,
   setEditTask,
+  colorPrimary
 }) => {
+  const { currentUserPermissions } = useContext(UserContext);
   const onCancel = () => {
     setIsModalOpen(false);
     setEditTask();
@@ -37,6 +40,7 @@ const TaskLayout = ({
             shape="circle"
             icon={<EditOutlined />}
             onClick={() => onClickEdit(record)}
+            style={currentUserPermissions?.some(permissionName=>permissionName==="task.edit") ? {display:"inherit"} : {display:"none"} }
           />
 
           <Button
@@ -44,6 +48,7 @@ const TaskLayout = ({
             shape="circle"
             icon={<DeleteOutlined />}
             onClick={() => onClickDelete(record.key)}
+            style={currentUserPermissions?.some(permissionName=>permissionName==="task.delete") ? {display:"inherit"} : {display:"none"} }
             danger
           />
         </Space>
@@ -53,16 +58,18 @@ const TaskLayout = ({
 
   return (
     <div>
-      <Row justify="end">
-        <Col>
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<PlusOutlined />}
-            onClick={onClickAdd}
-          />
-        </Col>
-      </Row>
+     {currentUserPermissions?.some((permissionName) => permissionName === "task.add") && (
+        <Row justify="end">
+          <Col>
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<PlusOutlined />}
+              onClick={onClickAdd}
+            />
+          </Col>
+        </Row>
+      )}
       <Table columns={columns} dataSource={list} />
       {isModalOpen && (
         <TaskLayoutModal

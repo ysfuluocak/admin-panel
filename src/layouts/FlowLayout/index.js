@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Table, Button, Space, Row, Col, Tag } from "antd";
 import FlowLayoutModal from "./modal";
+import { UserContext } from "../../context/userContext";
 
 const FlowLayout = ({
   list,
@@ -14,7 +15,10 @@ const FlowLayout = ({
   editFlow,
   tasks,
   onCancel,
+  colorPrimary
 }) => {
+  const { currentUserPermissions } = useContext(UserContext);
+  console.log("flow", currentUserPermissions);
   const columns = [
     {
       title: "Name",
@@ -36,7 +40,7 @@ const FlowLayout = ({
         return (
           <div>
             {cell.map((task) => (
-              <Tag key={task.id}>{task.taskName}</Tag>
+              <Tag color={colorPrimary} key={task.id}>{task.taskName}</Tag>
             ))}
           </div>
         );
@@ -53,31 +57,35 @@ const FlowLayout = ({
             shape="circle"
             onClick={() => onClickEdit(record)}
             icon={<EditOutlined />}
+            style={currentUserPermissions?.some(permissionName=>permissionName==="flow.edit") ? {display:"inherit"} : {display:"none"} }
           />
           <Button
             type="primary"
             shape="circle"
             onClick={() => onClickDelete(record.key)}
             icon={<DeleteOutlined />}
+            style={currentUserPermissions?.some(permissionName=>permissionName==="flow.delete") ? {display:"inherit"} : {display:"none"} }
             danger
           />
         </Space>
       ),
     },
   ];
-
+  
   return (
     <div>
-      <Row justify="end">
-        <Col>
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<PlusOutlined />}
-            onClick={onClickAdd}
-          />
-        </Col>
-      </Row>
+      {currentUserPermissions?.some((permissionName) => permissionName === "flow.add") && (
+        <Row justify="end">
+          <Col>
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<PlusOutlined />}
+              onClick={onClickAdd}
+            />
+          </Col>
+        </Row>
+      )}
       <Table columns={columns} dataSource={list} />
       {isModalOpen && (
         <FlowLayoutModal

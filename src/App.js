@@ -1,6 +1,7 @@
 import { ConfigProvider, theme } from "antd";
 import MainPage from "./pages/MainPage";
 import { useState } from "react";
+import { UserProvider } from "./context/userContext";
 
 function App() {
   const [isDark, setIsDark] = useState(false);
@@ -13,15 +14,17 @@ function App() {
       theme={{
         algorithm: theme[isDark ? "darkAlgorithm" : "defaultAlgorithm"],
         token: {
-          colorPrimary: { colorPrimary },
+          colorPrimary: colorPrimary,
         },
       }}
     >
-      <MainPage
-        onChangeTheme={onChangeTheme}
-        setColorPrimary={setColorPrimary}
-        colorPrimary={colorPrimary}
-      />
+      <UserProvider>
+        <MainPage
+          onChangeTheme={onChangeTheme}
+          setColorPrimary={setColorPrimary}
+          colorPrimary={colorPrimary}
+        />
+      </UserProvider>
     </ConfigProvider>
   );
 }

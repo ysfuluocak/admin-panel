@@ -7,7 +7,7 @@ import reducer, {
   UPDATE_ITEM,
 } from "../../reducers/listReducer";
 
-const Task = () => {
+const Task = ({colorPrimary}) => {
   const [editTask, setEditTask] = useState();
   const [list, dispatch] = useReducer(reducer, []);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -71,6 +71,7 @@ const Task = () => {
       setIsModalOpen={setIsModalOpen}
       onCancel={onCancel}
       setEditTask={setEditTask}
+      colorPrimary={colorPrimary}
     />
   );
 };

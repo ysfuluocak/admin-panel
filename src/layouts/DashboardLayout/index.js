@@ -7,7 +7,7 @@ const DashboardLayout = ({ labels,dataCount }) => {
 
   useEffect(() => {
     const data = {
-      labels: ["Q1", "Q2", "Q3", "Q4", "Q5"],
+      labels: ["users","roles", "permissions", "tasks", "flows"],
       datasets: [
         {
           label: "Data Counts",
