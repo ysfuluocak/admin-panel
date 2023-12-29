@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { Form, Input, Button,Select } from "antd";
 
-const FlowLayoutForm = ({ onFinish, editFlow,tasks, form }) => {
+const FlowLayoutForm = ({ onFinish, editFlow,tasks }) => {
+  const [form] = Form.useForm();
   useEffect(() => {
     if (editFlow) {
       form.setFieldsValue({

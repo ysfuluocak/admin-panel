@@ -32,14 +32,9 @@ const Role = () => {
             key: response.id,
           },
         });
-        console.log(list);
-        debugger;
       });
     } else {
-      updateRole(editRole.id, {
-        ...values,
-        permissions: values.permissions.map((per) => per.value),
-      }).then((response) => {
+      updateRole(editRole.id, values).then((response) => {
         dispatch({
           type: UPDATE_ITEM,
           payload: {
@@ -68,8 +63,6 @@ const Role = () => {
 
   const onClickEdit = (editedRole) => {
     setIsModalOpen(true);
-    console.log(editedRole);
-    debugger;
     setEditRole(editedRole);
   };
 
@@ -98,14 +91,14 @@ const Role = () => {
 
   return (
     <RoleLayout
+      list={list}
       onFinish={onFinish}
+      isModalOpen={isModalOpen}
+      setIsModalOpen={setIsModalOpen}
       onClickAdd={onClickAdd}
       onClickDelete={onClickDelete}
       onClickEdit={onClickEdit}
-      list={list}
       editRole={editRole}
-      isModalOpen={isModalOpen}
-      setIsModalOpen={setIsModalOpen}
       permissions={permissions}
       onCancel={onCancel}
     />

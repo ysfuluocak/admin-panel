@@ -17,7 +17,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 
-const MainPage = ({ onChangeTheme }) => {
+const MainPage = ({ onChangeTheme, setColorPrimary,colorPrimary }) => {
   const menu = [
     {
       key: "m1",
@@ -67,7 +67,10 @@ const MainPage = ({ onChangeTheme }) => {
           <Route path="/permission" element={<Permission />} />
           <Route path="/task" element={<Task />} />
           <Route path="/flow" element={<Flow />} />
-          <Route path="/setting" element={<Setting />} />
+          <Route
+            path="/setting"
+            element={<Setting setColorPrimary={setColorPrimary} colorPrimary={colorPrimary}/>}
+          />
         </Routes>
       </MainLayout>
     </BrowserRouter>

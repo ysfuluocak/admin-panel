@@ -1,6 +1,6 @@
 import React from "react";
 import FlowLayoutForm from "./form";
-import { Modal, Form } from "antd";
+import { Modal } from "antd";
 
 const FlowLayoutModal = ({
   isModalOpen,
@@ -10,7 +10,6 @@ const FlowLayoutModal = ({
   tasks,
   onCancel,
 }) => {
-  const [form] = Form.useForm();
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -27,7 +26,7 @@ const FlowLayoutModal = ({
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <FlowLayoutForm onFinish={onFinish} editFlow={editFlow} form={form} tasks={tasks} />
+      <FlowLayoutForm onFinish={onFinish} editFlow={editFlow} tasks={tasks} />
     </Modal>
   );
 };

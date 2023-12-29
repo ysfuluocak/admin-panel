@@ -1,24 +1,18 @@
-import { Form, Input, Select, Button } from "antd";
+import { Select, ColorPicker, Form, Button } from "antd";
 import React, { useEffect } from "react";
 
-const RoleLayoutForm = ({ onFinish, permissions, editRole }) => {
+const SettingLayout = ({ users, currentUser, onFinish, currentColor }) => {
   const [form] = Form.useForm();
+
   useEffect(() => {
-    if (editRole) {
-      form.setFieldsValue({
-        roleName: editRole.roleName,
-        permissions: editRole.permissions.map((p) => p.id),
-      });
-    } else {
-      form.resetFields();
-    }
+    form.setFieldsValue({ currentUser: currentUser?.id, color: currentColor });
     // eslint-disable-next-line
-  }, [form, editRole]);
+  }, [currentUser, form]);
 
   return (
     <Form
       form={form}
-      name="role"
+      name="basic"
       labelCol={{
         span: 8,
       }}
@@ -35,35 +29,36 @@ const RoleLayoutForm = ({ onFinish, permissions, editRole }) => {
       autoComplete="off"
     >
       <Form.Item
-        label="Name"
-        name="roleName"
+        label="User"
+        name="currentUser"
         rules={[
           {
             required: true,
-            message: "Please input your permissionName!",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        label="Permissions"
-        name="permissions"
-        rules={[
-          {
-            required: true,
-            message: "Please select at least one permission!",
+            message: "user is required!",
           },
         ]}
       >
         <Select
-          mode="multiple"
-          options={permissions.map((permission) => ({
-            value: permission.id,
-            label: permission.permissionName,
+          options={users.map((user) => ({
+            label: `${user.firstName} ${user.lastName}`,
+            value: user.id,
           }))}
         />
       </Form.Item>
+
+      <Form.Item
+        label="Theme Color"
+        name="color"
+        rules={[
+          {
+            required: true,
+            message: "color is required!",
+          },
+        ]}
+      >
+        <ColorPicker />
+      </Form.Item>
+
       <Form.Item
         wrapperCol={{
           offset: 8,
@@ -71,11 +66,11 @@ const RoleLayoutForm = ({ onFinish, permissions, editRole }) => {
         }}
       >
         <Button type="primary" htmlType="submit">
-          Submit
+          Save
         </Button>
       </Form.Item>
     </Form>
   );
 };
 
-export default RoleLayoutForm;
+export default SettingLayout;

@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  currentUserURL,
   flowURL,
   permissionURL,
   roleURL,
@@ -63,7 +64,7 @@ const deleteTask = async (id) => {
 };
 
 const updateTask = async (id, updatedTask) => {
-  const response = await axios.put(`${roleURL}/${id}`, updatedTask);
+  const response = await axios.put(`${taskURL}/${id}`, updatedTask);
   return response.data;
 };
 
@@ -107,6 +108,16 @@ const updateRole = async (id, updatedRole) => {
   return response.data;
 };
 
+const getCurrentUser = async () => {
+  const response = await axios.get(currentUserURL);
+  return response.data;
+};
+
+const updateCurrentUser = async (user) => {
+  const response = await axios.put(`${currentUserURL}`, user);
+  return response.data;
+};
+
 export {
   addPermission,
   getPermissions,
@@ -128,4 +139,6 @@ export {
   deleteTask,
   updateFlow,
   updateTask,
+  getCurrentUser,
+  updateCurrentUser
 };

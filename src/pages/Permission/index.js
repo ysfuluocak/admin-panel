@@ -24,7 +24,6 @@ const Permission = () => {
           type: ADD_ITEM,
           payload: { ...response, key: response.id },
         });
-        debugger;
       });
     } else {
       updatePermission(editPermission.id, values).then((response) => {

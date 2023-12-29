@@ -2,11 +2,15 @@ import { Form, Select, Button, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useEffect } from "react";
 
-const UserLayoutForm = ({ onFinish, editUser, roles }) => {
+const UserLayoutForm = ({ onFinish, editUser, roles, flows }) => {
   const [form] = Form.useForm();
   useEffect(() => {
     if (editUser) {
-      form.setFieldsValue(editUser);
+      form.setFieldsValue({
+        ...editUser,
+        roles: editUser.roles.map((role) => role.id),
+        flows: editUser.flows.map((flow) => flow.id),
+      });
     } else {
       form.resetFields();
     }
@@ -93,12 +97,14 @@ const UserLayoutForm = ({ onFinish, editUser, roles }) => {
       >
         <Select
           mode="multiple"
+          allowClear
           options={roles.map((role) => ({
             value: role.id,
             label: role.roleName,
           }))}
         />
       </Form.Item>
+
       <Form.Item
         label="Flows"
         name="flows"
@@ -111,9 +117,10 @@ const UserLayoutForm = ({ onFinish, editUser, roles }) => {
       >
         <Select
           mode="multiple"
-          options={roles.map((role) => ({
-            value: role.id,
-            label: role.roleName,
+          allowClear
+          options={flows.map((flow) => ({
+            value: flow.id,
+            label: flow.flowName,
           }))}
         />
       </Form.Item>

@@ -8,7 +8,8 @@ const UserLayoutModal = ({
   editUser,
   setIsModalOpen,
   onCancel,
-  roles
+  roles,
+  flows,
 }) => {
   const handleOk = () => {
     setIsModalOpen(false);
@@ -20,14 +21,19 @@ const UserLayoutModal = ({
   };
   return (
     <Modal
-      title="Add Permission"
+      title="Add User"
       cancelButtonProps={{ style: { display: "none" } }}
       okButtonProps={{ style: { display: "none" } }}
       open={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <UserLayoutForm onFinish={onFinish} editUser={editUser} roles={roles} />
+      <UserLayoutForm
+        onFinish={onFinish}
+        editUser={editUser}
+        roles={roles}
+        flows={flows}
+      />
     </Modal>
   );
 };

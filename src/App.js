@@ -4,21 +4,24 @@ import { useState } from "react";
 
 function App() {
   const [isDark, setIsDark] = useState(false);
-
+  const [colorPrimary, setColorPrimary] = useState("#F16C16");
   const onChangeTheme = (value) => {
     setIsDark(value);
   };
-
   return (
     <ConfigProvider
       theme={{
         algorithm: theme[isDark ? "darkAlgorithm" : "defaultAlgorithm"],
         token: {
-          colorPrimary: "#F16C16",
+          colorPrimary: { colorPrimary },
         },
       }}
     >
-      <MainPage onChangeTheme={onChangeTheme} />
+      <MainPage
+        onChangeTheme={onChangeTheme}
+        setColorPrimary={setColorPrimary}
+        colorPrimary={colorPrimary}
+      />
     </ConfigProvider>
   );
 }

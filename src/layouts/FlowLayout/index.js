@@ -12,14 +12,14 @@ const FlowLayout = ({
   setIsModalOpen,
   onFinish,
   editFlow,
-  task,
+  tasks,
   onCancel,
 }) => {
   const columns = [
     {
       title: "Name",
       dataIndex: "flowName",
-      key: "flowName",
+      key: "key",
       align: "left",
       render: (cell, row) => {
         return cell;
@@ -28,7 +28,7 @@ const FlowLayout = ({
     {
       title: "Tasks",
       dataIndex: "tasks",
-      key: "tasks",
+      key: "key",
       align: "left",
       render: (cell, row) => {
         console.log("cell", cell);
@@ -85,7 +85,7 @@ const FlowLayout = ({
           setIsModalOpen={setIsModalOpen}
           onFinish={onFinish}
           editFlow={editFlow}
-          task={task}
+          tasks={tasks}
           onCancel={onCancel}
         />
       )}

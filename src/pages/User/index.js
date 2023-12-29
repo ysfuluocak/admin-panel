@@ -3,6 +3,7 @@ import UserLayout from "../../layouts/UserLayout";
 import {
   addUser,
   deleteUser,
+  getFlows,
   getRoles,
   getUsers,
   updateUser,
@@ -18,6 +19,7 @@ const User = () => {
   const [list, dispatch] = useReducer(reducer, []);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [roles, setRoles] = useState([]);
+  const [flows, setFlows] = useState([]);
 
   const onFinish = (values) => {
     if (!editUser) {
@@ -29,11 +31,15 @@ const User = () => {
             roles: response.roles.map((itemRoleId) =>
               roles.find((role) => role.id === itemRoleId)
             ),
+            flows: response.flows.map((itemFlowId) =>
+              flows.find((flow) => flow.id === itemFlowId)
+            ),
+            key: response.id,
           },
         });
       });
     } else {
-      updateUser(editUser.id, ...values).then((response) => {
+      updateUser(editUser.id, values).then((response) => {
         dispatch({
           type: UPDATE_ITEM,
           payload: {
@@ -41,6 +47,10 @@ const User = () => {
             roles: response.roles.map((itemRoleId) =>
               roles.find((role) => role.id === itemRoleId)
             ),
+            flows: response.flows.map((itemFlowId) =>
+              flows.find((flow) => flow.id === itemFlowId)
+            ),
+            key: response.id,
           },
         });
       });
@@ -72,16 +82,22 @@ const User = () => {
   useEffect(() => {
     getUsers().then((response) => {
       getRoles().then((responseRole) => {
-        dispatch(
-          response
-            .map((item) => ({
-              ...item,
-              roles: item.roles.map((itemRoleId) =>
-                responseRole.find((role) => role.id === itemRoleId)
-              ),
-            }))
-            .map((item) => ({ ...item, key: item.id }))
-        );
+        getFlows().then((flowsResponse) => {
+          dispatch(
+            response
+              .map((item) => ({
+                ...item,
+                roles: item.roles.map((itemRoleId) =>
+                  responseRole.find((role) => role.id === itemRoleId)
+                ),
+                flows: item.flows.map((itemFlowsId) =>
+                  flowsResponse.find((flow) => flow.id === itemFlowsId)
+                ),
+              }))
+              .map((item) => ({ ...item, key: item.id }))
+          );
+          setFlows(flowsResponse);
+        });
         setRoles(responseRole);
       });
     });
@@ -94,12 +110,12 @@ const User = () => {
       onClickDelete={onClickDelete}
       onClickEdit={onClickEdit}
       list={list}
-      editRole={editUser}
-      setEditRole={setEditUser}
+      editUser={editUser}
       isModalOpen={isModalOpen}
       setIsModalOpen={setIsModalOpen}
       onCancel={onCancel}
       roles={roles}
+      flows={flows}
     />
   );
 };

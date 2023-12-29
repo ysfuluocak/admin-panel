@@ -4,13 +4,19 @@ import reducer, {
   DELETE_ITEM,
   UPDATE_ITEM,
 } from "../../reducers/listReducer";
-import { addFlow, deleteFlow, getFlows, updateFlow } from "../../services";
+import {
+  addFlow,
+  deleteFlow,
+  getFlows,
+  getTasks,
+  updateFlow,
+} from "../../services";
 import FlowLayout from "../../layouts/FlowLayout";
 
 const Flow = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [list, dispatch] = useReducer(reducer, []);
   const [editFlow, setEditFlow] = useState();
+  const [list, dispatch] = useReducer(reducer, []);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [tasks, setTasks] = useState();
 
   const onFinish = (values) => {
@@ -18,14 +24,26 @@ const Flow = () => {
       addFlow(values).then((response) => {
         dispatch({
           type: ADD_ITEM,
-          payload: { ...response, key: response.id },
+          payload: {
+            ...response,
+            tasks: response.tasks.map((itemTasksId) =>
+              tasks.find((task) => task.id === itemTasksId)
+            ),
+            key: response.id,
+          },
         });
       });
     } else {
       updateFlow(editFlow.id, values).then((response) => {
         dispatch({
           type: UPDATE_ITEM,
-          payload: { ...response, key: response.id },
+          payload: {
+            ...response,
+            tasks: response.tasks.map((itemTasksId) =>
+              tasks.find((task) => task.id === itemTasksId)
+            ),
+            key: response.id,
+          },
         });
         setEditFlow();
       });
@@ -48,9 +66,26 @@ const Flow = () => {
     setEditFlow(updatedFlow);
   };
 
+  const onCancel = () => {
+    setIsModalOpen(false);
+    setEditFlow();
+  };
+
   useEffect(() => {
     getFlows().then((response) => {
-      dispatch(response.map((item) => ({ ...item, key: item.id })));
+      getTasks().then((taskResponse) => {
+        dispatch(
+          response
+            .map((flow) => ({
+              ...flow,
+              tasks: flow.tasks.map((taskId) =>
+                taskResponse.find((task) => task.id === taskId)
+              ),
+            }))
+            .map((flow) => ({ ...flow, key: flow.id }))
+        );
+        setTasks(taskResponse);
+      });
     });
   }, []);
 
@@ -64,7 +99,8 @@ const Flow = () => {
       onClickEdit={onClickEdit}
       onClickAdd={onClickAdd}
       editFlow={editFlow}
-      setEditFlow={setEditFlow}
+      tasks={tasks}
+      onCancel={onCancel}
     />
   );
 };

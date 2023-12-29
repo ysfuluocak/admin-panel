@@ -14,12 +14,13 @@ const UserLayout = ({
   onFinish,
   list,
   roles,
+  flows,
 }) => {
   const columns = [
     {
       title: "Name",
       dataIndex: "firstName",
-      key: "firstName",
+      key: "key",
       align: "left",
       render: (cell, row) => {
         return cell;
@@ -28,7 +29,7 @@ const UserLayout = ({
     {
       title: "Last Name",
       dataIndex: "lastName",
-      key: "userName",
+      key: "key",
       align: "left",
       render: (cell, row) => {
         return cell;
@@ -37,7 +38,7 @@ const UserLayout = ({
     {
       title: "Email",
       dataIndex: "email",
-      key: "email",
+      key: "key",
       align: "left",
       render: (cell, row) => {
         return cell;
@@ -46,7 +47,7 @@ const UserLayout = ({
     {
       title: "Age",
       dataIndex: "age",
-      key: "age",
+      key: "key",
       align: "left",
       render: (cell, row) => {
         return cell;
@@ -55,7 +56,7 @@ const UserLayout = ({
     {
       title: "Roles",
       dataIndex: "roles",
-      key: "roles",
+      key: "key",
       align: "left",
       render: (cell, row) => {
         console.log("cell", cell);
@@ -72,7 +73,7 @@ const UserLayout = ({
     {
       title: "Flows",
       dataIndex: "flows",
-      key: "flows",
+      key: "key",
       align: "left",
       render: (cell, row) => {
         console.log("cell", cell);
@@ -80,7 +81,7 @@ const UserLayout = ({
         return (
           <div>
             {cell.map((flow) => (
-              <Tag key={flow.id}>{flow.roleName}</Tag>
+              <Tag key={flow.id}>{flow.flowName}</Tag>
             ))}
           </div>
         );
@@ -89,7 +90,7 @@ const UserLayout = ({
     {
       title: "Address",
       dataIndex: "address",
-      key: "address",
+      key: "key",
       align: "left",
       render: (cell, row) => {
         return cell;
@@ -140,6 +141,7 @@ const UserLayout = ({
           editUser={editUser}
           onCancel={onCancel}
           roles={roles}
+          flows={flows}
         />
       )}
     </div>

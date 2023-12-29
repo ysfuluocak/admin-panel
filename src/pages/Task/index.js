@@ -1,12 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react";
 import TaskLayout from "../../layouts/TaskLayout";
-import {
-  addTask,
-  deleteRole,
-  getFlows,
-  getTasks,
-  updateTask,
-} from "../../services";
+import { addTask, deleteTask, getTasks, updateTask } from "../../services";
 import reducer, {
   ADD_ITEM,
   DELETE_ITEM,
@@ -17,36 +11,20 @@ const Task = () => {
   const [editTask, setEditTask] = useState();
   const [list, dispatch] = useReducer(reducer, []);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [flows, setFlows] = useState();
 
   const onFinish = (values) => {
     if (!editTask) {
       addTask(values).then((response) => {
         dispatch({
           type: ADD_ITEM,
-          payload: {
-            ...response,
-            flows: response.flows.map((itemFlowId) =>
-              flows.find((flow) => flow.id === itemFlowId)
-            ),
-            key: response.id,
-          },
+          payload: { ...response, key: response.id },
         });
       });
     } else {
-      updateTask(editTask.id, {
-        ...values,
-        flows: values.flows.map((flow) => flow.value),
-      }).then((response) => {
+      updateTask(editTask.id, values).then((response) => {
         dispatch({
           type: UPDATE_ITEM,
-          payload: {
-            ...response,
-            flows: response.flows.map((itemFlowId) =>
-              flows.find((flow) => flow.id === itemFlowId)
-            ),
-            key: response.id,
-          },
+          payload: { ...response, key: response.id },
         });
         setEditTask();
       });
@@ -59,7 +37,7 @@ const Task = () => {
   };
 
   const onClickDelete = (id) => {
-    deleteRole(id).then((response) => {
+    deleteTask(id).then((response) => {
       dispatch({ type: DELETE_ITEM, payload: id });
     });
   };
@@ -76,19 +54,7 @@ const Task = () => {
 
   useEffect(() => {
     getTasks().then((response) => {
-      getFlows().then((responseFlow) => {
-        dispatch(
-          response
-            .map((item) => ({
-              ...item,
-              flows: item.flows.map((itemFlowId) =>
-                flows.find((flow) => flow.id === itemFlowId)
-              ),
-            }))
-            .map((item) => ({ ...item, key: item.id }))
-        );
-        setFlows(responseFlow);
-      });
+      dispatch(response.map((item) => ({ ...item, key: item.id })));
     });
     // eslint-disable-next-line
   }, []);
@@ -103,8 +69,8 @@ const Task = () => {
       editTask={editTask}
       isModalOpen={isModalOpen}
       setIsModalOpen={setIsModalOpen}
-      flows={flows}
       onCancel={onCancel}
+      setEditTask={setEditTask}
     />
   );
 };

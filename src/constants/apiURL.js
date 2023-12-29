@@ -4,5 +4,14 @@ const roleURL = `${baseURL}/roles`;
 const permissionURL = `${baseURL}/permissions`;
 const taskURL = `${baseURL}/tasks`;
 const flowURL = `${baseURL}/flows`;
+const currentUserURL = `${baseURL}/${"currentUser"}`;
 
-export { baseURL, userURL, roleURL, permissionURL, taskURL, flowURL };
+export {
+  baseURL,
+  userURL,
+  roleURL,
+  permissionURL,
+  taskURL,
+  flowURL,
+  currentUserURL,
+};
